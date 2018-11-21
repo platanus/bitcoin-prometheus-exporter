@@ -50,7 +50,7 @@ var (
 	defaultRPCDisableTLS   = getEnvBool("RPC_DISABLE_TLS", true)
 
 	// Command-line flags
-	namepace = flag.String("namepsace", defaultNamespace,
+	namespace = flag.String("namespace", defaultNamespace,
 		"The namespace or prefix to use in the exported metrics. The default value can be overwritten by NAMESPACE environment variable.")
 	listenAddr = flag.String("web.listen-address", defaultListenAddress,
 		"An address to listen on for web interface and telemetry. The default value can be overwritten by LISTEN_ADDRESS environment variable.")
@@ -93,7 +93,7 @@ func main() {
 		log.Fatalf("Could not create Bitcoin Rpc Client: %v", err)
 	}
 
-	registry.MustRegister(collector.NewBitcoinCollector(client, *namepace))
+	registry.MustRegister(collector.NewBitcoinCollector(client, *namespace))
 
 	http.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
